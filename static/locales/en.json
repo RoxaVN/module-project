@@ -1,0 +1,45 @@
+{
+  "projects": "Projects",
+  "tasks": "Tasks",
+  "subtasks": "Subtasks",
+  "addSubtask": "Add subtask",
+  "myProjects": "My projects",
+  "addProject": "Add project",
+  "editProject": "Edit project",
+  "deleteProject": "Delete project",
+  "editTask": "Edit task",
+  "deleteTask": "Delete task",
+  "projectDuration": "Project duration (in day)",
+  "pending": "Pending",
+  "inprogress": "In progress",
+  "finished": "Finished",
+  "rejected": "Rejected",
+  "inprogressTask": "In progress task",
+  "finishedTask": "Finish task",
+  "rejectedTask": "Reject task",
+  "assignee": "Assignee",
+  "progress": "Progress",
+  "assign": "Assign",
+  "assignMe": "Assign me",
+  "taskWeight": "Task weight",
+  "startedDate": "Started date",
+  "finishedDate": "Finished date",
+  "rejectedDate": "Rejected date",
+
+  "Error": {
+    "InvalidTaskStatusForUpdateException": "This action can only be performed when the task is pending or in progress",
+    "InprogressTaskException": "Only task status can be changed from pending to in progress",
+    "RejectTaskException": "only reject the subtask from pending staus or in progress status",
+    "FinishSubtaskException": "Only complete subtask from in progress status",
+    "FinishParenttaskException": "Only complete the parent task when the subtasks has been completed",
+    "DeleteTaskException": "Only delete the task that is in the pending state, no subtasks, and not the root task",
+    "UnassignedTaskException": "Please assign the task to anyone before taking this action",
+    "AlreadyAssignedTaskException": "The task has already been assigned, cannot be reassigned to others",
+    "UserNotInProjectException": "User is not part of the project",
+    "InvalidExpiryDateSubtaskException": "The expiry date of the child task is up to {{maxExpiryDate, datetime}}, cannot be greater than the expiry date of the parent task"
+  },
+  "Meta": {
+    "name": "Project module",
+    "description": "Project module"
+  }
+}

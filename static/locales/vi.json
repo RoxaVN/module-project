@@ -1,0 +1,45 @@
+{
+  "projects": "Dự án",
+  "tasks": "Công việc",
+  "subtasks": "Công việc con",
+  "addSubtask": "Thêm công việc con",
+  "myProjects": "Dự án của tôi",
+  "addProject": "Thêm dự án",
+  "editProject": "Sửa dự án",
+  "deleteProject": "Xóa dự án",
+  "editTask": "Sửa công việc",
+  "deleteTask": "Xóa công việc",
+  "projectDuration": "Thời gian hoàn thành dự án (tính theo ngày)",
+  "pending": "Đang chờ",
+  "inprogress": "Đang thực hiện",
+  "finished": "Đã hoàn thành",
+  "rejected": "Bị hủy bỏ",
+  "inprogressTask": "Thực hiện công việc",
+  "finishedTask": "Hoàn thành công việc",
+  "rejectedTask": "Hủy bỏ công việc",
+  "assignee": "Người được giao",
+  "progress": "Tiến độ",
+  "assign": "Giao việc",
+  "assignMe": "Giao cho tôi",
+  "taskWeight": "Khối lượng công việc",
+  "startedDate": "Ngày bắt đầu",
+  "finishedDate": "Ngày hoàn thành",
+  "rejectedDate": "Ngày hủy bỏ",
+
+  "Error": {
+    "InvalidTaskStatusForUpdateException": "Chỉ thực hiện được hành động này khi công việc đang ở trạng thái chờ hoặc đang thực hiện",
+    "InprogressTaskException": "Chỉ chuyển được trạng thái công việc từ trạng thái đang chờ sang đang thực hiện",
+    "RejectTaskException": "chỉ hủy được công việc con từ trạng thái đang chờ hoạc đang thực hiện",
+    "FinishSubtaskException": "Chỉ hoàn thành công việc con từ trạng thái đang thực hiện",
+    "FinishParenttaskException": "Chỉ hoàn thành công việc cha khi đã hoàn thành hết công việc con",
+    "DeleteTaskException": "Chỉ xoắ được công việc đang ở trạng thái chờ, không có công việc con, và không phải công việc gốc",
+    "UnassignedTaskException": "vui lòng giao công việc cho 1 người trước khi thực hiện hành động này",
+    "AlreadyAssignedTaskException": "Công việc đã được giao rồi, không thể giao lại cho người khác",
+    "UserNotInProjectException": "Người dùng chưa thuộc dự án",
+    "InvalidExpiryDateSubtaskException": "Ngày hết hạn của công việc con lớn nhất là {{maxExpiryDate, datetime}}, không được lớn hơn ngày hết hạn của công việc cha"
+  },
+  "Meta": {
+    "name": "Module dự án",
+    "description": "Module dự án"
+  }
+}
