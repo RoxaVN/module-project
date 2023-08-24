@@ -3,17 +3,27 @@
   "version": "0.1.0",
   "scripts": {
     "build": "roxavn build",
-    "dev": "roxavn dev"
+    "dev": "roxavn dev",
+    "prepare": "husky install"
   },
   "license": "MIT",
   "author": "roxavn",
   "roxavn": {},
   "type": "module",
   "sideEffects": false,
-  "dependencies": {},
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
     "@roxavn/cli": "^0.2.0",
     "@roxavn/module-user": "^0.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "standard-version": "^9.5.0",
     "typescript": "^5.0.4"
   },
   "peerDependencies": {
