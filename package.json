@@ -4,6 +4,7 @@
   "scripts": {
     "build": "roxavn build",
     "dev": "roxavn dev",
+    "prepublishOnly": "npm run build",
     "prepare": "husky install"
   },
   "license": "MIT",
