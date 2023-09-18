@@ -103,7 +103,7 @@ export class CreateProjectApiService extends BaseService {
     project.name = request.name;
     project.type = request.type;
     project.userId = authUser.id;
-    await this.databaseService.manager.save(project);
+    await this.databaseService.manager.getRepository(Project).save(project);
 
     // auto set creator as admin
     await this.setUserRoleApiService.handle({
@@ -118,7 +118,7 @@ export class CreateProjectApiService extends BaseService {
     task.userId = authUser.id;
     task.title = request.name;
     task.expiryDate = dayjs().add(request.duration, 'day').toDate();
-    await this.databaseService.manager.save(task);
+    await this.databaseService.manager.getRepository(Task).save(task);
 
     return { id: project.id };
   }
