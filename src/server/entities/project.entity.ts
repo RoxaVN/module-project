@@ -13,11 +13,16 @@ import { Task } from './task.entity.js';
 
 @Entity()
 export class Project {
+  static TYPE_DEFAULT = 'default';
+
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: string;
 
-  @Column('text')
+  @Column('text', { default: Project.TYPE_DEFAULT })
   type: string;
+
+  @Column('bool', { default: false })
+  isPublic: boolean;
 
   @Index()
   @Column('uuid')

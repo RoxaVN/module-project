@@ -3,7 +3,7 @@ import {
   Badge,
   Card,
   Group,
-  Select,
+  Switch,
   Text,
   TextInput,
 } from '@mantine/core';
@@ -16,12 +16,7 @@ import {
 } from '@roxavn/core/web';
 import { IconEdit } from '@tabler/icons-react';
 
-import {
-  constants,
-  projectApi,
-  ProjectResponse,
-  webRoutes,
-} from '../../base/index.js';
+import { projectApi, ProjectResponse, webRoutes } from '../../base/index.js';
 
 export interface ProjectInfoProps {
   project: ProjectResponse;
@@ -39,12 +34,7 @@ export const ProjectInfo = ({ project }: ProjectInfoProps) => {
         >
           <Text weight={500}>{project.name}</Text>
         </Anchor>
-        <Badge
-          color={
-            project.type === constants.ProjectTypes.PUBLIC ? 'green' : 'orange'
-          }
-          variant="light"
-        >
+        <Badge color={project.isPublic ? 'green' : 'orange'} variant="light">
           {tCore(project.type)}
         </Badge>
       </Group>
@@ -65,19 +55,13 @@ export const ProjectInfo = ({ project }: ProjectInfoProps) => {
                 apiParams={{
                   projectId: project.id,
                   name: project.name,
-                  type: project.type,
+                  isPublic: project.isPublic,
                 }}
                 fields={[
                   { name: 'name', input: <TextInput label={tCore('name')} /> },
                   {
-                    name: 'type',
-                    input: (
-                      <Select
-                        withinPortal
-                        label={tCore('type')}
-                        data={Object.values(constants.ProjectTypes)}
-                      />
-                    ),
+                    name: 'isPublic',
+                    input: <Switch label={tCore('public')} />,
                   },
                 ]}
                 onSuccess={() => navigate()}

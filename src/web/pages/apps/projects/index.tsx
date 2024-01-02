@@ -4,7 +4,6 @@ import { Link } from '@remix-run/react';
 import { servicesLoader } from '@roxavn/core/server';
 import { PaginationLinks, useLoaderData, utils } from '@roxavn/core/web';
 
-import { constants } from '../../../../base/index.js';
 import { GetProjectsApiService } from '../../../../server/index.js';
 
 export default function () {
@@ -35,7 +34,7 @@ export function loader(args: LoaderArgs) {
   return servicesLoader.load(args, {
     projects: {
       service: GetProjectsApiService,
-      params: { type: constants.ProjectTypes.PUBLIC },
+      params: { isPublic: true },
     },
   });
 }

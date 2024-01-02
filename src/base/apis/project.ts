@@ -4,8 +4,8 @@ import {
   ArrayMinSize,
   ExactProps,
   IsArray,
+  IsBoolean,
   IsDateString,
-  IsIn,
   IsOptional,
   MaxLength,
   Min,
@@ -15,11 +15,11 @@ import {
 
 import { baseModule } from '../module.js';
 import { permissions, scopes } from '../access.js';
-import { constants } from '../constants.js';
 
 export interface ProjectResponse {
   id: string;
   type: string;
+  isPublic: boolean;
   name: string;
   userId: string;
   createdDate: Date;
@@ -39,6 +39,10 @@ class GetProjectRequest extends ExactProps<GetProjectRequest> {
 class GetProjectsRequest extends ExactProps<GetProjectsRequest> {
   @IsOptional()
   public readonly type?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  public readonly isPublic?: boolean;
 
   @IsArray()
   @ArrayMinSize(2)
@@ -68,8 +72,8 @@ class CreateProjectRequest extends ExactProps<CreateProjectRequest> {
   @MaxLength(1024)
   public readonly name!: string;
 
-  @IsIn(Object.values(constants.ProjectTypes))
-  public readonly type!: string;
+  @IsBoolean()
+  public readonly isPublic!: boolean;
 
   @Min(1)
   public readonly duration!: number;
@@ -84,9 +88,9 @@ class UpdateProjectRequest extends ExactProps<UpdateProjectRequest> {
   @IsOptional()
   public readonly name?: string;
 
-  @IsIn(Object.values(constants.ProjectTypes))
+  @IsBoolean()
   @IsOptional()
-  public readonly type?: string;
+  public readonly isPublic?: boolean;
 }
 
 class DeleteProjectRequest extends ExactProps<DeleteProjectRequest> {

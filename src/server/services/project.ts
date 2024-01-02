@@ -39,7 +39,7 @@ export class GetProjectsApiService extends InjectDatabaseService {
     const [items, totalItems] = await this.entityManager
       .getRepository(Project)
       .findAndCount({
-        where: { type: request.type },
+        where: { type: request.type, isPublic: request.isPublic },
         take: pageSize,
         skip: (page - 1) * pageSize,
       });
@@ -101,7 +101,7 @@ export class CreateProjectApiService extends BaseService {
   ) {
     const project = new Project();
     project.name = request.name;
-    project.type = request.type;
+    project.isPublic = request.isPublic;
     project.userId = authUser.id;
     await this.databaseService.manager.getRepository(Project).save(project);
 
@@ -131,7 +131,7 @@ export class UpdateProjectApiService extends InjectDatabaseService {
       .getRepository(Project)
       .update(
         { id: request.projectId },
-        { name: request.name, type: request.type }
+        { name: request.name, isPublic: request.isPublic }
       );
     return {};
   }

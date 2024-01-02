@@ -1,4 +1,4 @@
-import { Anchor, NumberInput, Select, TextInput } from '@mantine/core';
+import { Anchor, NumberInput, Switch, TextInput } from '@mantine/core';
 import { Link } from '@remix-run/react';
 import {
   ApiFormGroup,
@@ -11,7 +11,7 @@ import {
 import { IconPlus } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 
-import { constants, projectApi, webRoutes } from '../../../../base/index.js';
+import { projectApi, webRoutes } from '../../../../base/index.js';
 import { webModule } from '../../../module.js';
 
 function MePage() {
@@ -42,14 +42,8 @@ function MePage() {
                 fields={[
                   { name: 'name', input: <TextInput label={tCore('name')} /> },
                   {
-                    name: 'type',
-                    input: (
-                      <Select
-                        withinPortal
-                        label={tCore('type')}
-                        data={Object.values(constants.ProjectTypes)}
-                      />
-                    ),
+                    name: 'isPublic',
+                    input: <Switch label={tCore('public')} />,
                   },
                   {
                     name: 'duration',

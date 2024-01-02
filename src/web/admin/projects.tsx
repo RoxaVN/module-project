@@ -1,4 +1,4 @@
-import { Select, TextInput } from '@mantine/core';
+import { Switch, TextInput } from '@mantine/core';
 import {
   ApiTable,
   IfCanAccessApi,
@@ -18,7 +18,7 @@ import {
   IconUsers,
 } from '@tabler/icons-react';
 
-import { constants, projectApi, scopes } from '../../base/index.js';
+import { projectApi, scopes } from '../../base/index.js';
 import { webModule } from '../module.js';
 
 const Page = () => {
@@ -40,13 +40,8 @@ const Page = () => {
                 fields={[
                   { name: 'name', input: <TextInput label={tCore('name')} /> },
                   {
-                    name: 'type',
-                    input: (
-                      <Select
-                        label={tCore('type')}
-                        data={Object.values(constants.ProjectTypes)}
-                      />
-                    ),
+                    name: 'isPublic',
+                    input: <Switch label={tCore('public')} />,
                   },
                 ]}
               />
@@ -75,18 +70,13 @@ const Page = () => {
                 apiParams={{
                   projectId: item.id,
                   name: item.name,
-                  type: item.type,
+                  isPublic: item.isPublic,
                 }}
                 fields={[
                   { name: 'name', input: <TextInput label={tCore('name')} /> },
                   {
-                    name: 'type',
-                    input: (
-                      <Select
-                        label={tCore('type')}
-                        data={Object.values(constants.ProjectTypes)}
-                      />
-                    ),
+                    name: 'isPublic',
+                    input: <Switch label={tCore('public')} />,
                   },
                 ]}
               />

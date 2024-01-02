@@ -1,14 +1,12 @@
 import { accessManager, constants as coreConstants } from '@roxavn/core/base';
 
 import { baseModule } from './module.js';
-import { constants } from './constants.js';
 
 export const scopes = accessManager.makeScopes(baseModule, {
   Project: { name: 'project' },
   PublicProject: {
     name: 'project',
-    condition: (_, context) =>
-      context.resource?.type === constants.ProjectTypes.PUBLIC,
+    condition: (_, context) => context.resource?.isPublic,
   },
   Task: { name: 'task' },
   TaskAssignee: {
