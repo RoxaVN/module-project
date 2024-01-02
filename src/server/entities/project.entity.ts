@@ -18,6 +18,7 @@ export class Project {
   @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: string;
 
+  @Index()
   @Column('text', { default: Project.TYPE_DEFAULT })
   type: string;
 
