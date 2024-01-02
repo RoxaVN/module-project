@@ -343,7 +343,10 @@ export class FinishTaskApiService extends InjectDatabaseService {
       const result = await this.entityManager.getRepository(Task).update(
         {
           id: request.taskId,
-          status: constants.TaskStatus.INPROGRESS,
+          status: In([
+            constants.TaskStatus.PENDING,
+            constants.TaskStatus.INPROGRESS,
+          ]),
           childrenCount: 0,
         },
         finishUpdate

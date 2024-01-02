@@ -30,7 +30,7 @@
     "InvalidTaskStatusForUpdateException": "Chỉ thực hiện được hành động này khi công việc đang ở trạng thái chờ hoặc đang thực hiện",
     "InprogressTaskException": "Chỉ chuyển được trạng thái công việc từ trạng thái đang chờ sang đang thực hiện",
     "RejectTaskException": "chỉ hủy được công việc con từ trạng thái đang chờ hoạc đang thực hiện",
-    "FinishSubtaskException": "Chỉ hoàn thành công việc con từ trạng thái đang thực hiện",
+    "FinishSubtaskException": "Chỉ hoàn thành công việc con từ trạng thái đang chờ hoạc đang thực hiện",
     "FinishParenttaskException": "Chỉ hoàn thành công việc cha khi đã hoàn thành hết công việc con",
     "DeleteTaskException": "Chỉ xoắ được công việc đang ở trạng thái chờ, không có công việc con, và không phải công việc gốc",
     "UnassignedTaskException": "vui lòng giao công việc cho 1 người trước khi thực hiện hành động này",
