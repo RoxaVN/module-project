@@ -34,12 +34,16 @@ const statusForUpdate = [
   constants.TaskStatus.INPROGRESS,
 ];
 
-@serverModule.useApi(taskApi.createSubtask)
-export class CreateSubtaskApiService extends InjectDatabaseService {
-  async handle(
-    request: InferApiRequest<typeof taskApi.createSubtask>,
-    @AuthUser authUser: InferContext<typeof AuthUser>
-  ) {
+@serverModule.injectable()
+export class CreateSubtaskService extends InjectDatabaseService {
+  async handle(request: {
+    taskId: string;
+    userId: string;
+    title: string;
+    expiryDate: Date;
+    weight?: number;
+    metadata?: Record<string, any>;
+  }) {
     const task = await this.entityManager.getRepository(Task).findOne({
       where: { id: request.taskId },
       cache: true,
@@ -59,14 +63,10 @@ export class CreateSubtaskApiService extends InjectDatabaseService {
     }
 
     const subTask = new Task();
-    subTask.userId = authUser.id;
-    subTask.title = request.title;
-    subTask.expiryDate = request.expiryDate;
+    Object.assign(subTask, request);
     subTask.projectId = task.projectId;
-    subTask.parentId = task.id;
-    subTask.weight = request.weight;
     subTask.parents = [...(task.parents || []), task.id];
-    await this.entityManager.save(subTask);
+    await this.entityManager.getRepository(Task).save(subTask);
 
     await this.entityManager
       .createQueryBuilder()
@@ -79,6 +79,26 @@ export class CreateSubtaskApiService extends InjectDatabaseService {
       .execute();
 
     return { id: subTask.id };
+  }
+}
+
+@serverModule.useApi(taskApi.createSubtask)
+export class CreateSubtaskApiService extends BaseService {
+  constructor(
+    @inject(CreateSubtaskService)
+    protected createSubtaskService: CreateSubtaskService
+  ) {
+    super();
+  }
+
+  handle(
+    request: InferApiRequest<typeof taskApi.createSubtask>,
+    @AuthUser authUser: InferContext<typeof AuthUser>
+  ) {
+    return this.createSubtaskService.handle({
+      ...request,
+      userId: authUser.id,
+    });
   }
 }
 
@@ -109,9 +129,15 @@ export class GetSubtasksApiService extends InjectDatabaseService {
   }
 }
 
-@serverModule.useApi(taskApi.update)
-export class UpdateTaskApiService extends InjectDatabaseService {
-  async handle(request: InferApiRequest<typeof taskApi.update>) {
+@serverModule.injectable()
+export class UpdateTaskService extends InjectDatabaseService {
+  async handle(request: {
+    taskId: string;
+    title?: string;
+    expiryDate?: Date;
+    weight?: number;
+    metadata?: Record<string, any>;
+  }) {
     const task = await this.entityManager.getRepository(Task).findOne({
       where: { id: request.taskId },
       lock: { mode: 'pessimistic_write' },
@@ -141,17 +167,31 @@ export class UpdateTaskApiService extends InjectDatabaseService {
       {
         title: request.title,
         weight: request.weight,
+        metadata: request.metadata,
         expiryDate: request.expiryDate,
       }
     );
 
-    const deltaWeight = request.weight - task.weight;
+    const deltaWeight = request.weight && request.weight - task.weight;
     if (deltaWeight && task.parentId) {
       await this.entityManager
         .getRepository(Task)
         .increment({ id: task.parentId }, 'childrenWeight', deltaWeight);
     }
     return {};
+  }
+}
+
+@serverModule.useApi(taskApi.update)
+export class UpdateTaskApiService extends BaseService {
+  constructor(
+    @inject(UpdateTaskService) protected updateTaskService: UpdateTaskService
+  ) {
+    super();
+  }
+
+  handle(request: InferApiRequest<typeof taskApi.update>) {
+    return this.updateTaskService.handle(request);
   }
 }
 

@@ -57,7 +57,7 @@ export class Task {
   project: Relation<Project>;
 
   @Column({ type: 'jsonb', nullable: true })
-  metadata?: any;
+  metadata?: Record<string, any>;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdDate: Date;
