@@ -85,8 +85,8 @@ export class GetJoinedProjectsApiService extends BaseService {
   }
 }
 
-@serverModule.useApi(projectApi.create)
-export class CreateProjectApiService extends BaseService {
+@serverModule.injectable()
+export class CreateProjectService extends BaseService {
   constructor(
     @inject(DatabaseService) private databaseService: DatabaseService,
     @inject(SetUserRoleApiService)
@@ -95,14 +95,22 @@ export class CreateProjectApiService extends BaseService {
     super();
   }
 
-  async handle(
-    request: InferApiRequest<typeof projectApi.create>,
-    @AuthUser authUser: InferContext<typeof AuthUser>
-  ) {
+  async handle(request: {
+    name: string;
+    isPublic: boolean;
+    duration: number;
+    userId: string;
+    type?: string;
+    metadata?: Record<string, any>;
+  }) {
     const project = new Project();
     project.name = request.name;
     project.isPublic = request.isPublic;
-    project.userId = authUser.id;
+    project.userId = request.userId;
+    project.metadata = request.metadata;
+    if (request.type) {
+      project.type = request.type;
+    }
     await this.databaseService.manager.getRepository(Project).save(project);
 
     // auto set creator as admin
@@ -115,12 +123,32 @@ export class CreateProjectApiService extends BaseService {
 
     const task = new Task();
     task.projectId = project.id;
-    task.userId = authUser.id;
+    task.userId = request.userId;
     task.title = request.name;
     task.expiryDate = dayjs().add(request.duration, 'day').toDate();
     await this.databaseService.manager.getRepository(Task).save(task);
 
     return { id: project.id };
+  }
+}
+
+@serverModule.useApi(projectApi.create)
+export class CreateProjectApiService extends BaseService {
+  constructor(
+    @inject(CreateProjectService)
+    private createProjectService: CreateProjectService
+  ) {
+    super();
+  }
+
+  handle(
+    request: InferApiRequest<typeof projectApi.create>,
+    @AuthUser authUser: InferContext<typeof AuthUser>
+  ) {
+    return this.createProjectService.handle({
+      ...request,
+      userId: authUser.id,
+    });
   }
 }
 

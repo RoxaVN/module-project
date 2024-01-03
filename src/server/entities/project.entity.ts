@@ -33,7 +33,7 @@ export class Project {
   name: string;
 
   @Column({ type: 'jsonb', nullable: true })
-  metadata?: any;
+  metadata?: Record<string, any>;
 
   @OneToMany(() => Task, (task) => task.project)
   tasks: Relation<Task>[];
