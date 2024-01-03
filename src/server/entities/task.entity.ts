@@ -76,4 +76,7 @@ export class Task {
 
   @Column({ type: 'timestamptz', nullable: true })
   rejectedDate?: Date;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  canceledDate?: Date;
 }

@@ -33,6 +33,7 @@ export interface TaskResponse {
   startedDate?: Date;
   finishedDate?: Date;
   rejectedDate?: Date;
+  canceledDate?: Date;
 }
 
 const taskSource = new ApiSource<TaskResponse>([scopes.Task], baseModule);

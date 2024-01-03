@@ -25,6 +25,7 @@ export class InitModuleProject1704206526273 implements MigrationInterface {
         "startedDate" TIMESTAMP WITH TIME ZONE,
         "finishedDate" TIMESTAMP WITH TIME ZONE,
         "rejectedDate" TIMESTAMP WITH TIME ZONE,
+        "canceledDate" TIMESTAMP WITH TIME ZONE,
         CONSTRAINT "PK_fb213f79ee45060ba925ecd576e" PRIMARY KEY ("id")
       )
       `);

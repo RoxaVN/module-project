@@ -14,6 +14,7 @@
   "inprogress": "In progress",
   "finished": "Finished",
   "rejected": "Rejected",
+  "canceled": "Canceled",
   "inprogressTask": "In progress task",
   "finishedTask": "Finish task",
   "rejectedTask": "Reject task",
@@ -25,6 +26,7 @@
   "startedDate": "Started date",
   "finishedDate": "Finished date",
   "rejectedDate": "Rejected date",
+  "canceledDate": "Canceled date",
 
   "Error": {
     "InvalidTaskStatusForUpdateException": "This action can only be performed when the task is pending or in progress",

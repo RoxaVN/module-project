@@ -4,5 +4,6 @@ export const constants = {
     INPROGRESS: 'inprogress',
     FINISHED: 'finished',
     REJECTED: 'rejected',
+    CANCELED: 'canceled',
   },
 };
