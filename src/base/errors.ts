@@ -78,6 +78,15 @@ export class RejectTaskException extends BadRequestException {
   };
 }
 
+export class CancelTaskException extends BadRequestException {
+  i18n = {
+    default: {
+      key: 'Error.CancelTaskException',
+      ns: baseModule.escapedName,
+    },
+  };
+}
+
 export class FinishSubtaskException extends BadRequestException {
   i18n = {
     default: {

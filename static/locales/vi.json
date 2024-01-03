@@ -31,7 +31,8 @@
   "Error": {
     "InvalidTaskStatusForUpdateException": "Chỉ thực hiện được hành động này khi công việc đang ở trạng thái chờ hoặc đang thực hiện",
     "InprogressTaskException": "Chỉ chuyển được trạng thái công việc từ trạng thái đang chờ sang đang thực hiện",
-    "RejectTaskException": "Chỉ hủy được công việc con từ trạng thái đang chờ hoạc đang thực hiện",
+    "RejectTaskException": "Chỉ từ bỏ được công việc con từ trạng thái đang chờ hoạc đang thực hiện",
+    "CancelTaskException": "Chỉ hủy bỏ được công việc con từ trạng thái đang chờ",
     "FinishSubtaskException": "Chỉ hoàn thành công việc con từ trạng thái đang chờ hoạc đang thực hiện",
     "FinishParenttaskException": "Chỉ hoàn thành công việc cha khi đã hoàn thành hết công việc con",
     "DeleteTaskException": "Chỉ xoắ được công việc đang ở trạng thái chờ, không có công việc con, và không phải công việc gốc",

@@ -31,7 +31,8 @@
   "Error": {
     "InvalidTaskStatusForUpdateException": "This action can only be performed when the task is pending or in progress",
     "InprogressTaskException": "Only task status can be changed from pending to in progress",
-    "RejectTaskException": "only reject the subtask from pending status or in progress status",
+    "RejectTaskException": "Only reject the subtask from pending status or in progress status",
+    "CancelTaskException": "Only cancel the subtask from pending status",
     "FinishSubtaskException": "Only complete subtask from pending status or in progress status",
     "FinishParenttaskException": "Only complete the parent task when the subtasks has been completed",
     "DeleteTaskException": "Only delete the task that is in the pending state, no subtasks, and not the root task",

@@ -314,6 +314,41 @@ export class RejectTaskApiService extends InjectDatabaseService {
   }
 }
 
+@serverModule.useApi(taskApi.cancel)
+export class CancelTaskApiService extends InjectDatabaseService {
+  async handle(request: InferApiRequest<typeof taskApi.cancel>) {
+    const task = await this.entityManager.getRepository(Task).findOne({
+      where: { id: request.taskId },
+      cache: true,
+      lock: { mode: 'pessimistic_write' },
+    });
+    if (!task) {
+      throw new NotFoundException();
+    }
+    const result = await this.entityManager.getRepository(Task).update(
+      {
+        id: request.taskId,
+        status: constants.TaskStatus.PENDING,
+        childrenCount: 0,
+      },
+      {
+        status: constants.TaskStatus.CANCELED,
+        canceledDate: new Date(),
+        weight: 0,
+      }
+    );
+    if (result.affected) {
+      if (task.parentId) {
+        await this.entityManager
+          .getRepository(Task)
+          .decrement({ id: task.parentId }, 'childrenWeight', task.weight);
+      }
+      return {};
+    }
+    throw new RejectTaskException();
+  }
+}
+
 @serverModule.useApi(taskApi.finish)
 export class FinishTaskApiService extends InjectDatabaseService {
   async handle(request: InferApiRequest<typeof taskApi.finish>) {

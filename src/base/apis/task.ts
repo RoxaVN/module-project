@@ -142,4 +142,9 @@ export const taskApi = {
     validator: UpdateTaskStatusRequest,
     permission: permissions.UpdateTaskStatus,
   }),
+  cancel: taskSource.update({
+    path: taskSource.apiPath({ includeId: true }) + '/cancel',
+    validator: UpdateTaskStatusRequest,
+    permission: permissions.CancelTask,
+  }),
 };
