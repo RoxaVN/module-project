@@ -22,19 +22,28 @@ export class GetProjectRootTaskApiService extends InjectDatabaseService {
   }
 }
 
-@serverModule.useApi(projectTaskApi.getSome)
+@serverModule.useApi(projectTaskApi.getMany)
 export class GetProjectTasksApiService extends InjectDatabaseService {
-  async handle(request: InferApiRequest<typeof projectTaskApi.getSome>) {
-    if (request.ids?.length > 0) {
-      const items = await this.entityManager.getRepository(Task).find({
+  async handle(request: InferApiRequest<typeof projectTaskApi.getMany>) {
+    const page = request.page || 1;
+    const pageSize = 10;
+
+    const [items, totalItems] = await this.entityManager
+      .getRepository(Task)
+      .findAndCount({
         where: {
           projectId: request.projectId,
-          id: In(request.ids),
+          id: request.ids && In(request.ids),
+          userId: request.userId,
         },
+        take: pageSize,
+        skip: (page - 1) * pageSize,
         order: { id: 'ASC' },
       });
-      return { items };
-    }
-    return { items: [] };
+
+    return {
+      items: items,
+      pagination: { page, pageSize, totalItems },
+    };
   }
 }

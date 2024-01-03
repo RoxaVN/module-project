@@ -6,7 +6,7 @@ import { projectTaskApi } from '../../base/index.js';
 import { TaskPreview } from './TaskPreview.js';
 
 export interface ParentTasksProps {
-  parentTasks: InferApiResponse<typeof projectTaskApi.getSome>;
+  parentTasks: InferApiResponse<typeof projectTaskApi.getMany>;
 }
 
 export function ParentTasks({ parentTasks }: ParentTasksProps) {
