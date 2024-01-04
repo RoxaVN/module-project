@@ -117,7 +117,7 @@ export class GetSubtasksApiService extends InjectDatabaseService {
     const pageSize = request.pageSize || 10;
     const totalItems = task.childrenCount;
     const items = await this.entityManager.getRepository(Task).find({
-      where: { parentId: task.id },
+      where: { parentId: task.id, userId: request.userId },
       take: pageSize,
       skip: (page - 1) * pageSize,
     });

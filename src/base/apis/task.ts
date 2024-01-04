@@ -1,6 +1,7 @@
 import {
   ApiSource,
   ExactProps,
+  IsOptional,
   IsPositive,
   MaxLength,
   MinLength,
@@ -56,6 +57,10 @@ const UpdateTaskRequest = CreateSubtaskRequest;
 class GetSubtasksRequest extends PaginationRequest<GetSubtasksRequest> {
   @MinLength(1)
   public readonly taskId!: string;
+
+  @MinLength(1)
+  @IsOptional()
+  public readonly userId?: string;
 }
 
 class GetTaskRequest extends ExactProps<GetTaskRequest> {
