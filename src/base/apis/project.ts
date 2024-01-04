@@ -10,7 +10,7 @@ import {
   MaxLength,
   Min,
   MinLength,
-  TransformNumber,
+  PaginationRequest,
 } from '@roxavn/core/base';
 
 import { baseModule } from '../module.js';
@@ -36,7 +36,7 @@ class GetProjectRequest extends ExactProps<GetProjectRequest> {
   public readonly projectId!: string;
 }
 
-class GetProjectsRequest extends ExactProps<GetProjectsRequest> {
+class GetProjectsRequest extends PaginationRequest<GetProjectsRequest> {
   @IsOptional()
   public readonly type?: string;
 
@@ -50,21 +50,11 @@ class GetProjectsRequest extends ExactProps<GetProjectsRequest> {
   @IsDateString({}, { each: true })
   @IsOptional()
   public readonly createdDate?: Date[];
-
-  @Min(1)
-  @TransformNumber()
-  @IsOptional()
-  public readonly page = 1;
 }
 
-class GetJoinedProjectsRequest extends ExactProps<GetJoinedProjectsRequest> {
+class GetJoinedProjectsRequest extends PaginationRequest<GetJoinedProjectsRequest> {
   @MinLength(1)
   public readonly userId!: string;
-
-  @Min(1)
-  @TransformNumber()
-  @IsOptional()
-  public readonly page?: number;
 }
 
 class CreateProjectRequest extends ExactProps<CreateProjectRequest> {

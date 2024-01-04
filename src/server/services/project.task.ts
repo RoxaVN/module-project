@@ -26,7 +26,7 @@ export class GetProjectRootTaskApiService extends InjectDatabaseService {
 export class GetProjectTasksApiService extends InjectDatabaseService {
   async handle(request: InferApiRequest<typeof projectTaskApi.getMany>) {
     const page = request.page || 1;
-    const pageSize = 10;
+    const pageSize = request.pageSize || 10;
 
     const [items, totalItems] = await this.entityManager
       .getRepository(Task)

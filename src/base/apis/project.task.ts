@@ -3,11 +3,9 @@ import {
   ArrayMaxSize,
   ExactProps,
   IsOptional,
-  Max,
-  Min,
   MinLength,
+  PaginationRequest,
   TransformArray,
-  TransformNumber,
 } from '@roxavn/core/base';
 
 import { baseModule } from '../module.js';
@@ -24,7 +22,7 @@ class GetProjectRootTaskRequest extends ExactProps<GetProjectRootTaskRequest> {
   public readonly projectId!: string;
 }
 
-class GetProjectTasksRequest extends ExactProps<GetProjectTasksRequest> {
+class GetProjectTasksRequest extends PaginationRequest<GetProjectTasksRequest> {
   @MinLength(1)
   public readonly projectId: string;
 
@@ -37,17 +35,6 @@ class GetProjectTasksRequest extends ExactProps<GetProjectTasksRequest> {
   @TransformArray()
   @IsOptional()
   public readonly ids?: string[];
-
-  @Min(1)
-  @TransformNumber()
-  @IsOptional()
-  public readonly page?: number;
-
-  @Min(1)
-  @Max(100)
-  @TransformNumber()
-  @IsOptional()
-  public readonly pageSize?: number;
 }
 
 export const projectTaskApi = {

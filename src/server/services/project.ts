@@ -34,7 +34,7 @@ export class GetProjectApiService extends InjectDatabaseService {
 export class GetProjectsApiService extends InjectDatabaseService {
   async handle(request: InferApiRequest<typeof projectApi.getMany>) {
     const page = request.page || 1;
-    const pageSize = 10;
+    const pageSize = request.pageSize || 10;
 
     const [items, totalItems] = await this.entityManager
       .getRepository(Project)
@@ -63,7 +63,7 @@ export class GetJoinedProjectsApiService extends BaseService {
 
   async handle(request: InferApiRequest<typeof projectApi.getManyJoined>) {
     const page = request.page || 1;
-    const pageSize = 10;
+    const pageSize = request.pageSize || 10;
 
     const result = await this.getUserScopeIdsApiService.handle({
       scope: scopes.Project.name,
@@ -95,6 +95,11 @@ export class CreateProjectService extends BaseService {
     super();
   }
 
+  /**
+   *
+   * @param request - { duration: Number of days }
+   * @returns
+   */
   async handle(request: {
     name: string;
     isPublic: boolean;

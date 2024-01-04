@@ -1,13 +1,11 @@
 import {
   ApiSource,
   ExactProps,
-  IsOptional,
   IsPositive,
   MaxLength,
-  Min,
   MinLength,
+  PaginationRequest,
   TransformDate,
-  TransformNumber,
 } from '@roxavn/core/base';
 
 import { baseModule } from '../module.js';
@@ -55,14 +53,9 @@ class CreateSubtaskRequest extends ExactProps<CreateSubtaskRequest> {
 
 const UpdateTaskRequest = CreateSubtaskRequest;
 
-class GetSubtasksRequest extends ExactProps<GetSubtasksRequest> {
+class GetSubtasksRequest extends PaginationRequest<GetSubtasksRequest> {
   @MinLength(1)
   public readonly taskId!: string;
-
-  @Min(1)
-  @TransformNumber()
-  @IsOptional()
-  public readonly page?: number;
 }
 
 class GetTaskRequest extends ExactProps<GetTaskRequest> {
