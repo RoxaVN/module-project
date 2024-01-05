@@ -66,6 +66,7 @@ export class CreateSubtaskService extends InjectDatabaseService {
     const subTask = new Task();
     Object.assign(subTask, request);
     subTask.projectId = task.projectId;
+    subTask.parentId = task.id;
     subTask.parents = [...(task.parents || []), task.id];
     await this.entityManager.getRepository(Task).save(subTask);
 
@@ -117,9 +118,16 @@ export class GetSubtasksApiService extends InjectDatabaseService {
     const page = request.page || 1;
     const pageSize = request.pageSize || 10;
     const totalItems = task.childrenCount;
-    let query = this.databaseService.manager.createQueryBuilder(Task, 'task');
+    let query = this.databaseService.manager
+      .createQueryBuilder(Task, 'task')
+      .where('task.parentId = :parentId', { parentId: task.id });
+    if (request.userId) {
+      query = query.andWhere('task.userId = :userId', {
+        userId: request.userId,
+      });
+    }
     if (request.statuses) {
-      query = query.where('task.status IN (:...statuses)', {
+      query = query.andWhere('task.status IN (:...statuses)', {
         statuses: request.statuses,
       });
     }
