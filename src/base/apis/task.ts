@@ -5,8 +5,13 @@ import {
   IsPositive,
   MaxLength,
   MinLength,
+  type OrderBy,
   PaginationRequest,
   TransformDate,
+  TransformJson,
+  ArrayMaxSize,
+  type AttributeFilters,
+  TransformArray,
 } from '@roxavn/core/base';
 
 import { baseModule } from '../module.js';
@@ -61,6 +66,20 @@ class GetSubtasksRequest extends PaginationRequest<GetSubtasksRequest> {
   @MinLength(1)
   @IsOptional()
   public readonly userId?: string;
+
+  @ArrayMaxSize(10)
+  @TransformArray()
+  @IsOptional()
+  public readonly statuses?: Array<string>;
+
+  @ArrayMaxSize(10)
+  @TransformJson()
+  @IsOptional()
+  public readonly metadataFilters?: AttributeFilters;
+
+  @TransformJson()
+  @IsOptional()
+  public readonly orderBy?: OrderBy;
 }
 
 class GetTaskRequest extends ExactProps<GetTaskRequest> {

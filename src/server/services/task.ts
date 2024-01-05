@@ -7,6 +7,7 @@ import {
   type InferContext,
   inject,
   InjectDatabaseService,
+  databaseUtils,
 } from '@roxavn/core/server';
 import dayjs from 'dayjs';
 import { In, IsNull } from 'typeorm';
@@ -116,11 +117,34 @@ export class GetSubtasksApiService extends InjectDatabaseService {
     const page = request.page || 1;
     const pageSize = request.pageSize || 10;
     const totalItems = task.childrenCount;
-    const items = await this.entityManager.getRepository(Task).find({
-      where: { parentId: task.id, userId: request.userId },
-      take: pageSize,
-      skip: (page - 1) * pageSize,
-    });
+    let query = this.databaseService.manager.createQueryBuilder(Task, 'task');
+    if (request.statuses) {
+      query = query.where('task.status IN (:...statuses)', {
+        statuses: request.statuses,
+      });
+    }
+    if (request.metadataFilters) {
+      query = query.andWhere(
+        databaseUtils.makeWhere(
+          request.metadataFilters,
+          (field) => `task.metadata->>'${field}'`
+        )
+      );
+    }
+    if (request.orderBy) {
+      query = query.orderBy(
+        Object.fromEntries(
+          request.orderBy.map((item) => [
+            `task."${item.attribute}"`,
+            item.direction,
+          ])
+        )
+      );
+    }
+    const items = await query
+      .skip((page - 1) * pageSize)
+      .take(pageSize)
+      .getMany();
 
     return {
       items: items,
