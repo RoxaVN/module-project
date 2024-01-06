@@ -274,10 +274,27 @@ export class DeleteTaskApiService extends InjectDatabaseService {
   }
 }
 
+@serverModule.injectable()
+export class AssignTaskService extends InjectDatabaseService {
+  async handle(request: { taskId: string; userId: string }) {
+    const result = await this.entityManager
+      .getRepository(Task)
+      .update(
+        { id: request.taskId, assignee: IsNull() },
+        { assignee: request.userId }
+      );
+    if (!result.affected) {
+      throw new AlreadyAssignedTaskException();
+    }
+    return {};
+  }
+}
+
 @serverModule.useApi(taskApi.assign)
 export class AssignTaskApiService extends BaseService {
   constructor(
     @inject(DatabaseService) private databaseService: DatabaseService,
+    @inject(AssignTaskService) private assignTaskService: AssignTaskService,
     @inject(CheckRoleUsersApiService)
     private checkRoleUsersApiService: CheckRoleUsersApiService
   ) {
@@ -299,16 +316,7 @@ export class AssignTaskApiService extends BaseService {
     if (!resultCheck.success) {
       throw new UserNotInProjectException();
     }
-    const result = await this.databaseService.manager
-      .getRepository(Task)
-      .update(
-        { id: request.taskId, assignee: IsNull() },
-        { assignee: request.userId }
-      );
-    if (!result.affected) {
-      throw new AlreadyAssignedTaskException();
-    }
-    return {};
+    return this.assignTaskService.handle(request);
   }
 }
 
