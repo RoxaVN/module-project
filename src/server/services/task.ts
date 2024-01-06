@@ -162,6 +162,18 @@ export class GetSubtasksApiService extends InjectDatabaseService {
 }
 
 @serverModule.injectable()
+export class UpdateTaskMetadataService extends InjectDatabaseService {
+  async handle(request: {
+    taskId: string;
+    metadata: Record<string, any> | null;
+  }) {
+    await this.entityManager
+      .getRepository(Task)
+      .update({ id: request.taskId }, { metadata: request.metadata });
+  }
+}
+
+@serverModule.injectable()
 export class UpdateTaskService extends InjectDatabaseService {
   async handle(request: {
     taskId: string;
